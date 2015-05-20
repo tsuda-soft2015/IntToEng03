@@ -1,33 +1,37 @@
 package inttoeng;
 
 import java.util.Scanner;
+import java.util.InputMismatchException;
 
 public class IntToEng {
 
     // メインメソッド
     public static void main(String[] args) {
 
-        Scanner sc = new Scanner(System.in);
-        int input = sc.nextInt();
-
-        System.out.println(translateEng(input));
-
+    	try {
+    		Scanner sc = new Scanner(System.in);
+    		int input = sc.nextInt();
+    		System.out.println(translateEng(input));
+    	} catch (InputMismatchException e) {
+        	System.out.println("範囲外です");
+        }
     }
 
     // 数値を英訳する変換するメソッド
     public static String translateEng(int n) {
     	String s = "";
     	if(n==0) s = "zero";
-    	if(n<0||n>1000000000) {
-    		s="範囲外です";
-    		n=0;
-    	}
+ 
     	String zeroTo9[]={"","one","two","three","four","five","six","seven","eight","nine"};
     	String tenTo19[]={"ten","eleven","twelve","thirteen","fourteen","fifteen","seventeen","eighteen","nineteen"};
     	String twentyTo90[]={"","","twenty","thirty","forty","fifty","sixty","seventy","eighty","ninety"};
     	
         int minus = 0;
         while(n!=0){
+        if(n>=1000000000){
+        	s+=zeroTo999(n/1000000000,zeroTo9,tenTo19,twentyTo90)+" billion";
+        	minus = (n/1000000000)*1000000000;
+        }
        	if(n>=1000000&&n<1000000000){
        		s+=zeroTo999(n/1000000,zeroTo9,tenTo19,twentyTo90)+" million";
        		minus = (n/1000000)*1000000;
